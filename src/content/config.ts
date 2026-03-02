@@ -1,43 +1,47 @@
 import { defineCollection, z } from "astro:content";
 
-// Accept:
-// - https://example.com/file
-// - http://example.com/file
-// - /uploads/file.pdf (relative path served from public/)
-const urlOrPath = z.string().refine((v) => {
-  // allow site-relative paths
-  if (v.startsWith("/")) return true;
-
-  // allow absolute URLs
-  try {
-    const u = new URL(v);
-    return u.protocol === "http:" || u.protocol === "https:";
-  } catch {
-    return false;
-  }
-}, "Invalid url (must be https://... or a site path like /uploads/...)");
-
 const linkSchema = z.object({
   label: z.string(),
-  url: urlOrPath,
+  url: z.string(),
   kind: z.enum(["view", "download", "external"]).default("external"),
 });
 
-const baseSchema = z.object({
+const baseItemSchema = z.object({
   title: z.string(),
   description: z.string(),
-  date: z.date().optional(),
+  date: z.coerce.date().optional(), // ✅ FIX HERE
   tags: z.array(z.string()).default([]),
   featured: z.boolean().default(false),
   links: z.array(linkSchema).default([]),
 });
 
-const publications = defineCollection({ type: "content", schema: baseSchema });
-const teaching = defineCollection({ type: "content", schema: baseSchema });
-const projects = defineCollection({ type: "content", schema: baseSchema });
+const publications = defineCollection({
+  type: "content",
+  schema: baseItemSchema,
+});
+
+const teaching = defineCollection({
+  type: "content",
+  schema: baseItemSchema,
+});
+
+const projects = defineCollection({
+  type: "content",
+  schema: baseItemSchema,
+});
+
 const studentProjects = defineCollection({
   type: "content",
-  schema: baseSchema,
+  schema: baseItemSchema,
+});
+
+const site = defineCollection({
+  type: "content",
+  schema: z.object({
+    // for src/content/site/profile.md and settings.md
+    // Astro doesn't require strict separation if you read them by path,
+    // but this keeps the collection valid.
+  }),
 });
 
 export const collections = {
@@ -45,4 +49,5 @@ export const collections = {
   teaching,
   projects,
   "student-projects": studentProjects,
+  site,
 };

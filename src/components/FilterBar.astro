@@ -1,0 +1,41 @@
+---
+const { allTags = [] } = Astro.props;
+---
+
+<div class="mt-5 flex flex-col md:flex-row gap-3 md:items-center">
+  <input
+    id="search"
+    placeholder="Search by title or description…"
+    class="w-full md:w-96 px-4 py-3 rounded-xl bg-white/5 border border-white/10 outline-none"
+  />
+
+  <select
+    id="tag"
+    class="w-full md:w-64 px-4 py-3 rounded-xl bg-white/5 border border-white/10 outline-none"
+  >
+    <option value="">All tags</option>
+    {allTags.map((t) => <option value={t}>{t}</option>)}
+  </select>
+</div>
+
+<script>
+  const search = document.getElementById("search");
+  const tag = document.getElementById("tag");
+  const cards = [...document.querySelectorAll("[data-card]")];
+
+  function apply() {
+    const q = (search.value || "").toLowerCase().trim();
+    const t = tag.value || "";
+
+    for (const el of cards) {
+      const text = (el.getAttribute("data-text") || "").toLowerCase();
+      const tags = (el.getAttribute("data-tags") || "");
+      const okQ = !q || text.includes(q);
+      const okT = !t || tags.split(",").includes(t);
+      el.style.display = okQ && okT ? "" : "none";
+    }
+  }
+
+  search.addEventListener("input", apply);
+  tag.addEventListener("change", apply);
+</script>

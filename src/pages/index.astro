@@ -1,33 +1,112 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import ItemCard from "../components/ItemCard.astro";
+import { getEntry, getCollection } from "astro:content";
+
+const profile = await getEntry("site", "profile");
+const settings = await getEntry("site", "settings");
+
+const pubs = await getCollection("publications");
+const projs = await getCollection("projects");
+
+const featuredPubs = pubs.filter(p => p.data.featured).slice(0, 4);
+const featuredProjs = projs.filter(p => p.data.featured).slice(0, 4);
 ---
 
-<BaseLayout title="Home | Portfolio" active="home" description="Professional portfolio">
-  <div class="space-y-6">
-    <div>
-      <h2 class="text-xl font-semibold tracking-tight">Welcome</h2>
-      <p class="mt-2 text-white/70 leading-relaxed">
-        This is your homepage. It will show a strong professional overview, highlights,
-        and quick links. We will make this more advanced in Part 5 (stats, featured cards, etc.).
-      </p>
-    </div>
+<BaseLayout title={settings?.data?.site_title ?? "Portfolio"}>
+  <section class="relative overflow-hidden rounded-3xl border border-white/10 bg-black/30">
+    {profile?.data?.background && (
+      <div class="absolute inset-0">
+        <img src={profile.data.background} alt="" class="h-full w-full object-cover opacity-30" />
+        <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/30"></div>
+      </div>
+    )}
 
-    <div class="grid gap-4 md:grid-cols-2">
-      <div class="rounded-2xl border border-white/10 bg-black/30 p-4">
-        <p class="font-medium text-white/90">What you do</p>
-        <p class="mt-2 text-sm text-white/70 leading-relaxed">
-          Add a summary about your research/industry focus.
+    <div class="relative p-6 md:p-10 grid md:grid-cols-[220px_1fr] gap-8 items-center">
+      <div class="flex md:block items-center gap-4">
+        <img
+          src={profile?.data?.avatar ?? "/profile.jpg"}
+          alt={profile?.data?.name ?? "Profile"}
+          class="h-28 w-28 md:h-48 md:w-48 rounded-2xl object-cover ring-1 ring-white/15"
+        />
+      </div>
+
+      <div>
+        <h1 class="text-3xl md:text-5xl font-semibold tracking-tight">
+          {profile?.data?.name}
+        </h1>
+        <p class="mt-2 text-lg md:text-xl text-white/80">
+          {profile?.data?.role}
         </p>
-      </div>
 
-      <div class="rounded-2xl border border-white/10 bg-black/30 p-4">
-        <p class="font-medium text-white/90">Highlights</p>
-        <ul class="mt-2 list-disc pl-5 text-sm text-white/70 space-y-1">
-          <li>1–2 key achievements</li>
-          <li>1–2 awards or top projects</li>
-          <li>1–2 publications or talks</li>
-        </ul>
+        <p class="mt-4 max-w-3xl text-white/75 leading-relaxed">
+          {profile?.data?.bio}
+        </p>
+
+        <div class="mt-5 flex flex-wrap gap-2">
+          {profile?.data?.links?.map((l) => (
+            <a
+              href={l.url}
+              target="_blank"
+              class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 transition"
+            >
+              {l.label}
+            </a>
+          ))}
+        </div>
+
+        {profile?.data?.highlight && (
+          <div class="mt-6 rounded-2xl border border-white/10 bg-white/5 p-4">
+            <div class="text-sm text-white/60">{profile.data.highlight.title}</div>
+            <div class="mt-1 text-white/85">{profile.data.highlight.text}</div>
+          </div>
+        )}
       </div>
     </div>
-  </div>
+  </section>
+
+  <section class="mt-10">
+    <h2 class="text-xl font-semibold text-white/90">Explore</h2>
+    <p class="text-white/60 mt-1">{settings?.data?.tagline}</p>
+  </section>
+
+  {(settings?.data?.home_sections?.show_featured_publications ?? true) && (
+    <section class="mt-8">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-semibold">Featured Publications</h2>
+        <a class="text-white/70 hover:text-white" href="/publications/">View all →</a>
+      </div>
+      <div class="mt-4 grid md:grid-cols-2 gap-4">
+        {featuredPubs.map((p) => (
+          <ItemCard
+            title={p.data.title}
+            description={p.data.description}
+            href={`/publications/${p.slug}/`}
+            tags={p.data.tags}
+            links={p.data.links}
+          />
+        ))}
+      </div>
+    </section>
+  )}
+
+  {(settings?.data?.home_sections?.show_featured_projects ?? true) && (
+    <section class="mt-10">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-semibold">Featured Projects</h2>
+        <a class="text-white/70 hover:text-white" href="/projects/">View all →</a>
+      </div>
+      <div class="mt-4 grid md:grid-cols-2 gap-4">
+        {featuredProjs.map((p) => (
+          <ItemCard
+            title={p.data.title}
+            description={p.data.description}
+            href={`/projects/${p.slug}/`}
+            tags={p.data.tags}
+            links={p.data.links}
+          />
+        ))}
+      </div>
+    </section>
+  )}
 </BaseLayout>

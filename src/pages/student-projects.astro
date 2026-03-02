@@ -1,30 +1,45 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ItemCard from "../components/ItemCard.astro";
+import FilterBar from "../components/FilterBar.astro";
 import { getCollection } from "astro:content";
 
 const items = await getCollection("student-projects");
-items.sort((a, b) => (b.data.date?.valueOf?.() ?? 0) - (a.data.date?.valueOf?.() ?? 0));
+
+items.sort((a, b) => {
+  const da = a.data.date ? new Date(a.data.date).getTime() : 0;
+  const db = b.data.date ? new Date(b.data.date).getTime() : 0;
+  return db - da;
+});
+
+const allTags = Array.from(
+  new Set(items.flatMap((i) => i.data.tags ?? []))
+).sort();
 ---
 
-<BaseLayout title="Student Projects | Portfolio" active="student-projects">
-  <div class="flex items-end justify-between gap-4">
-    <div>
-      <h2 class="text-xl font-semibold tracking-tight">Student Projects</h2>
-      <p class="mt-2 text-white/70">Projects developed by students with supervision and outcomes.</p>
-    </div>
-    <div class="text-sm text-white/60">{items.length} items</div>
-  </div>
+<BaseLayout title="Student Projects">
+  <h1 class="text-3xl font-semibold tracking-tight">Student Projects</h1>
+  <p class="mt-2 text-white/70">
+    Student projects with detailed pages and optional view/download links.
+  </p>
 
-  <div class="mt-6 grid gap-4">
+  <FilterBar allTags={allTags} />
+
+  <div class="mt-6 grid md:grid-cols-2 gap-4">
     {items.map((item) => (
-      <ItemCard
-        title={item.data.title}
-        description={item.data.description}
-        tags={item.data.tags}
-        links={item.data.links}
-        href={`/student-projects/${item.slug}/`}
-      />
+      <div
+        data-card
+        data-text={`${item.data.title} ${item.data.description}`}
+        data-tags={(item.data.tags ?? []).join(",")}
+      >
+        <ItemCard
+          title={item.data.title}
+          description={item.data.description}
+          href={`/student-projects/${item.slug}/`}
+          tags={item.data.tags}
+          links={item.data.links}
+        />
+      </div>
     ))}
   </div>
 </BaseLayout>

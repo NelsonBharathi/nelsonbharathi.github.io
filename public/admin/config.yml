@@ -9,11 +9,95 @@ backend:
 media_folder: "public/uploads"
 public_folder: "/uploads"
 
-# IMPORTANT: We will set auth in Part 4.
-# For now we disable local backend and auth will fail if you try to save.
-# But /admin will load fine.
+publish_mode: simple
 
 collections:
+  # =========================
+  # SITE: PROFILE (Homepage)
+  # =========================
+  - name: "site_profile"
+    label: "Profile (Homepage)"
+    files:
+      - file: "src/content/site/profile.md"
+        label: "Profile"
+        name: "profile"
+        fields:
+          - { label: "Name", name: "name", widget: "string" }
+          - { label: "Role", name: "role", widget: "string" }
+          - {
+              label: "Location",
+              name: "location",
+              widget: "string",
+              required: false,
+            }
+          - { label: "Email", name: "email", widget: "string", required: false }
+          - { label: "Phone", name: "phone", widget: "string", required: false }
+          - { label: "Bio", name: "bio", widget: "text" }
+          - { label: "Avatar", name: "avatar", widget: "image" }
+          - {
+              label: "Background image",
+              name: "background",
+              widget: "image",
+              required: false,
+            }
+          - label: "Links"
+            name: "links"
+            widget: "list"
+            summary: "{{fields.label}}"
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "URL", name: "url", widget: "string" }
+          - label: "Highlight"
+            name: "highlight"
+            widget: "object"
+            required: false
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Text", name: "text", widget: "string" }
+
+  # =========================
+  # SITE: SETTINGS
+  # =========================
+  - name: "site_settings"
+    label: "Site Settings"
+    files:
+      - file: "src/content/site/settings.md"
+        label: "Settings"
+        name: "settings"
+        fields:
+          - { label: "Site title", name: "site_title", widget: "string" }
+          - {
+              label: "Tagline",
+              name: "tagline",
+              widget: "string",
+              required: false,
+            }
+          - {
+              label: "Footer",
+              name: "footer",
+              widget: "string",
+              required: false,
+            }
+          - label: "Homepage sections"
+            name: "home_sections"
+            widget: "object"
+            fields:
+              - {
+                  label: "Show featured publications",
+                  name: "show_featured_publications",
+                  widget: "boolean",
+                  default: true,
+                }
+              - {
+                  label: "Show featured projects",
+                  name: "show_featured_projects",
+                  widget: "boolean",
+                  default: true,
+                }
+
+  # =========================
+  # PUBLICATIONS
+  # =========================
   - name: "publications"
     label: "Publications"
     folder: "src/content/publications"
@@ -42,18 +126,24 @@ collections:
         name: "links"
         widget: "list"
         default: []
+        summary: "{{fields.label}}"
         fields:
           - { label: "Label", name: "label", widget: "string" }
-          - { label: "URL or /uploads path", name: "url", widget: "string" }
           - {
-              label: "Kind",
-              name: "kind",
-              widget: "select",
-              options: ["view", "download", "external"],
-              default: "external",
+              label: "URL (https://... or /uploads/file.pdf)",
+              name: "url",
+              widget: "string",
             }
+          - label: "Kind"
+            name: "kind"
+            widget: "select"
+            options: ["view", "download", "external"]
+            default: "external"
       - { label: "Body", name: "body", widget: "markdown" }
 
+  # =========================
+  # TEACHING
+  # =========================
   - name: "teaching"
     label: "Teaching"
     folder: "src/content/teaching"
@@ -62,7 +152,7 @@ collections:
     extension: "md"
     format: "frontmatter"
     fields:
-      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Topic Title", name: "title", widget: "string" }
       - { label: "Description", name: "description", widget: "text" }
       - {
           label: "Date",
@@ -82,18 +172,24 @@ collections:
         name: "links"
         widget: "list"
         default: []
+        summary: "{{fields.label}}"
         fields:
           - { label: "Label", name: "label", widget: "string" }
-          - { label: "URL or /uploads path", name: "url", widget: "string" }
           - {
-              label: "Kind",
-              name: "kind",
-              widget: "select",
-              options: ["view", "download", "external"],
-              default: "external",
+              label: "URL (https://... or /uploads/file.pdf)",
+              name: "url",
+              widget: "string",
             }
+          - label: "Kind"
+            name: "kind"
+            widget: "select"
+            options: ["view", "download", "external"]
+            default: "external"
       - { label: "Body", name: "body", widget: "markdown" }
 
+  # =========================
+  # PROJECTS
+  # =========================
   - name: "projects"
     label: "Projects"
     folder: "src/content/projects"
@@ -102,7 +198,7 @@ collections:
     extension: "md"
     format: "frontmatter"
     fields:
-      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Project Title", name: "title", widget: "string" }
       - { label: "Description", name: "description", widget: "text" }
       - {
           label: "Date",
@@ -122,18 +218,24 @@ collections:
         name: "links"
         widget: "list"
         default: []
+        summary: "{{fields.label}}"
         fields:
           - { label: "Label", name: "label", widget: "string" }
-          - { label: "URL or /uploads path", name: "url", widget: "string" }
           - {
-              label: "Kind",
-              name: "kind",
-              widget: "select",
-              options: ["view", "download", "external"],
-              default: "external",
+              label: "URL (https://... or /uploads/file.pdf)",
+              name: "url",
+              widget: "string",
             }
+          - label: "Kind"
+            name: "kind"
+            widget: "select"
+            options: ["view", "download", "external"]
+            default: "external"
       - { label: "Body", name: "body", widget: "markdown" }
 
+  # =========================
+  # STUDENT PROJECTS
+  # =========================
   - name: "student-projects"
     label: "Student Projects"
     folder: "src/content/student-projects"
@@ -142,7 +244,7 @@ collections:
     extension: "md"
     format: "frontmatter"
     fields:
-      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Project Title", name: "title", widget: "string" }
       - { label: "Description", name: "description", widget: "text" }
       - {
           label: "Date",
@@ -162,14 +264,17 @@ collections:
         name: "links"
         widget: "list"
         default: []
+        summary: "{{fields.label}}"
         fields:
           - { label: "Label", name: "label", widget: "string" }
-          - { label: "URL or /uploads path", name: "url", widget: "string" }
           - {
-              label: "Kind",
-              name: "kind",
-              widget: "select",
-              options: ["view", "download", "external"],
-              default: "external",
+              label: "URL (https://... or /uploads/file.pdf)",
+              name: "url",
+              widget: "string",
             }
+          - label: "Kind"
+            name: "kind"
+            widget: "select"
+            options: ["view", "download", "external"]
+            default: "external"
       - { label: "Body", name: "body", widget: "markdown" }

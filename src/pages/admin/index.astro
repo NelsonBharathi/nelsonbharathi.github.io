@@ -10,26 +10,27 @@
 
     <!-- ✅ Fallback: if worker redirects back with #github_token=..., store it for Decap -->
     <script>
-      (function () {
-        try {
-          var hash = window.location.hash || "";
-          var m = hash.match(/github_token=([^&]+)/);
-          if (!m) return;
+  (function () {
+    try {
+      var hash = window.location.hash || "";
+      var m = hash.match(/github_token=([^&]+)/);
+      if (!m) return;
 
-          var token = decodeURIComponent(m[1]);
+      var token = decodeURIComponent(m[1]);
 
-          // Decap/Netlify CMS reads token from localStorage key 'netlify-cms-user'
-          // This format works for the github backend.
-          localStorage.setItem(
-            "netlify-cms-user",
-            JSON.stringify({ token: token, backendName: "github" })
-          );
+      // Store in BOTH keys (Decap / Netlify CMS variants)
+      var userObj = JSON.stringify({ token: token, backendName: "github" });
+      localStorage.setItem("netlify-cms-user", userObj);
+      localStorage.setItem("decap-cms-user", userObj);
 
-          // Clean up the URL (remove token from address bar)
-          history.replaceState(null, document.title, window.location.pathname);
-        } catch (e) {}
-      })();
-    </script>
+      // Clean URL
+      history.replaceState(null, document.title, window.location.pathname);
+
+      // Force reload so Decap reads storage again
+      window.location.reload();
+    } catch (e) {}
+  })();
+</script>
 
     <!-- Decap CMS -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>

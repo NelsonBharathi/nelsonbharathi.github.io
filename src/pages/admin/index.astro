@@ -1,10 +1,4 @@
 ---
-/**
- * This guarantees /admin/ exists even during local dev,
- * regardless of how static files are served.
- *
- * We will embed Decap CMS directly here.
- */
 ---
 
 <!doctype html>
@@ -14,6 +8,30 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Admin</title>
 
+    <!-- ✅ Fallback: if worker redirects back with #github_token=..., store it for Decap -->
+    <script>
+      (function () {
+        try {
+          var hash = window.location.hash || "";
+          var m = hash.match(/github_token=([^&]+)/);
+          if (!m) return;
+
+          var token = decodeURIComponent(m[1]);
+
+          // Decap/Netlify CMS reads token from localStorage key 'netlify-cms-user'
+          // This format works for the github backend.
+          localStorage.setItem(
+            "netlify-cms-user",
+            JSON.stringify({ token: token, backendName: "github" })
+          );
+
+          // Clean up the URL (remove token from address bar)
+          history.replaceState(null, document.title, window.location.pathname);
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Decap CMS -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 
     <style>
@@ -21,7 +39,5 @@
     </style>
   </head>
 
-  <body>
-    <!-- Decap loads automatically -->
-  </body>
+  <body></body>
 </html>

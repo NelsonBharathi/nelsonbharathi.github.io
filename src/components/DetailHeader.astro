@@ -1,0 +1,46 @@
+---
+const { title, description, tags = [], links = [] } = Astro.props;
+
+function kindStyles(kind) {
+  switch (kind) {
+    case "download":
+      return "border-emerald-400/20 bg-emerald-500/10 text-emerald-100 hover:bg-emerald-500/15";
+    case "view":
+      return "border-indigo-400/20 bg-indigo-500/10 text-indigo-100 hover:bg-indigo-500/15";
+    default:
+      return "border-white/10 bg-white/5 text-white/80 hover:bg-white/10";
+  }
+}
+---
+
+<header class="mb-6">
+  <h1 class="text-xl font-semibold tracking-tight">{title}</h1>
+  <p class="mt-2 text-white/70 leading-relaxed">{description}</p>
+
+  {tags?.length > 0 && (
+    <div class="mt-4 flex flex-wrap gap-2">
+      {tags.map((t) => (
+        <span class="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs text-white/70">
+          {t}
+        </span>
+      ))}
+    </div>
+  )}
+
+  {links?.length > 0 && (
+    <div class="mt-5 flex flex-wrap gap-2">
+      {links.map((l) => (
+        <a
+          href={l.url}
+          target={l.url.startsWith("http") ? "_blank" : undefined}
+          class:list={[
+            "rounded-2xl border px-3 py-2 text-sm transition",
+            kindStyles(l.kind),
+          ]}
+        >
+          {l.label}
+        </a>
+      ))}
+    </div>
+  )}
+</header>

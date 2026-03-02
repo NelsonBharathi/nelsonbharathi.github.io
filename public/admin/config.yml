@@ -1,0 +1,173 @@
+backend:
+  name: github
+  repo: nelsonbharathi/nelsonbharathi.github.io
+  branch: main
+
+# Where uploaded files go in the repo
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+# IMPORTANT: We will set auth in Part 4.
+# For now we disable local backend and auth will fail if you try to save.
+# But /admin will load fine.
+
+collections:
+  - name: "publications"
+    label: "Publications"
+    folder: "src/content/publications"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+      - {
+          label: "Date",
+          name: "date",
+          widget: "datetime",
+          format: "YYYY-MM-DD",
+          required: false,
+        }
+      - { label: "Tags", name: "tags", widget: "list", default: [] }
+      - {
+          label: "Featured",
+          name: "featured",
+          widget: "boolean",
+          default: false,
+        }
+      - label: "Links"
+        name: "links"
+        widget: "list"
+        default: []
+        fields:
+          - { label: "Label", name: "label", widget: "string" }
+          - { label: "URL or /uploads path", name: "url", widget: "string" }
+          - {
+              label: "Kind",
+              name: "kind",
+              widget: "select",
+              options: ["view", "download", "external"],
+              default: "external",
+            }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "teaching"
+    label: "Teaching"
+    folder: "src/content/teaching"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+      - {
+          label: "Date",
+          name: "date",
+          widget: "datetime",
+          format: "YYYY-MM-DD",
+          required: false,
+        }
+      - { label: "Tags", name: "tags", widget: "list", default: [] }
+      - {
+          label: "Featured",
+          name: "featured",
+          widget: "boolean",
+          default: false,
+        }
+      - label: "Links"
+        name: "links"
+        widget: "list"
+        default: []
+        fields:
+          - { label: "Label", name: "label", widget: "string" }
+          - { label: "URL or /uploads path", name: "url", widget: "string" }
+          - {
+              label: "Kind",
+              name: "kind",
+              widget: "select",
+              options: ["view", "download", "external"],
+              default: "external",
+            }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "projects"
+    label: "Projects"
+    folder: "src/content/projects"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+      - {
+          label: "Date",
+          name: "date",
+          widget: "datetime",
+          format: "YYYY-MM-DD",
+          required: false,
+        }
+      - { label: "Tags", name: "tags", widget: "list", default: [] }
+      - {
+          label: "Featured",
+          name: "featured",
+          widget: "boolean",
+          default: false,
+        }
+      - label: "Links"
+        name: "links"
+        widget: "list"
+        default: []
+        fields:
+          - { label: "Label", name: "label", widget: "string" }
+          - { label: "URL or /uploads path", name: "url", widget: "string" }
+          - {
+              label: "Kind",
+              name: "kind",
+              widget: "select",
+              options: ["view", "download", "external"],
+              default: "external",
+            }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "student-projects"
+    label: "Student Projects"
+    folder: "src/content/student-projects"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+      - {
+          label: "Date",
+          name: "date",
+          widget: "datetime",
+          format: "YYYY-MM-DD",
+          required: false,
+        }
+      - { label: "Tags", name: "tags", widget: "list", default: [] }
+      - {
+          label: "Featured",
+          name: "featured",
+          widget: "boolean",
+          default: false,
+        }
+      - label: "Links"
+        name: "links"
+        widget: "list"
+        default: []
+        fields:
+          - { label: "Label", name: "label", widget: "string" }
+          - { label: "URL or /uploads path", name: "url", widget: "string" }
+          - {
+              label: "Kind",
+              name: "kind",
+              widget: "select",
+              options: ["view", "download", "external"],
+              default: "external",
+            }
+      - { label: "Body", name: "body", widget: "markdown" }

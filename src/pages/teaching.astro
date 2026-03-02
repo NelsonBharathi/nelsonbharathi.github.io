@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ItemCard from "../components/ItemCard.astro";
+import { getCollection } from "astro:content";
+
+const items = await getCollection("teaching");
+items.sort((a, b) => (b.data.date?.valueOf?.() ?? 0) - (a.data.date?.valueOf?.() ?? 0));
+---
+
+<BaseLayout title="Teaching | Portfolio" active="teaching">
+  <div class="flex items-end justify-between gap-4">
+    <div>
+      <h2 class="text-xl font-semibold tracking-tight">Teaching</h2>
+      <p class="mt-2 text-white/70">Topics, notes, slides, and course materials.</p>
+    </div>
+    <div class="text-sm text-white/60">{items.length} items</div>
+  </div>
+
+  <div class="mt-6 grid gap-4">
+    {items.map((item) => (
+      <ItemCard
+        title={item.data.title}
+        description={item.data.description}
+        tags={item.data.tags}
+        links={item.data.links}
+        href={`/teaching/${item.slug}/`}
+      />
+    ))}
+  </div>
+</BaseLayout>

@@ -1,12 +1,11 @@
 ---
-name: Nelson
+name: Nelson Bharathi
 role: Researcher / Engineer
 location: Chennai, India
 email: your@email.com
 phone: +91-XXXXXXXXXX
 bio: |
-  Write a short professional bio here (3–6 lines).
-  Mention your research interests, domains, and what you’re looking for.
+  this is my portfolio
 avatar: /profile.jpg
 background: /uploads/bg.jpg
 links:

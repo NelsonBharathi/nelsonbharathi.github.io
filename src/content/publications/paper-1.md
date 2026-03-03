@@ -1,5 +1,5 @@
 ---
-title: "Paper 1: A Smart Approach to"
+title: "Paper 1: A Smart Approach"
 description: Short abstract-style description (2–3 lines).
 date: 2025-06-01
 tags:

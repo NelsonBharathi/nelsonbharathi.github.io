@@ -1,10 +1,10 @@
-/* Tailwind layers */
+/* Keep Tailwind layers so your component classes still work */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* ---------------------------------------------
-   Global base
+   Global base (NO @apply to avoid build errors)
 ---------------------------------------------- */
 :root {
   color-scheme: dark;
@@ -16,7 +16,11 @@ body {
 }
 
 body {
-  @apply bg-black text-white antialiased;
+  margin: 0;
+  background: #000;          /* replaces @apply bg-black */
+  color: #fff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Subtle background glow */
@@ -33,90 +37,170 @@ body {
 }
 
 /* ---------------------------------------------
-   Layout helpers (used by pages/components)
+   Layout helpers (pure CSS)
 ---------------------------------------------- */
 .container-shell {
-  @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+  width: 100%;
+  max-width: 72rem; /* ~ max-w-6xl */
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .container-shell {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-shell {
+    padding: 0 2rem;
+  }
 }
 
 /* Sidebar + main content layout */
 .main-grid {
-  @apply grid gap-6 lg:gap-8;
-  grid-template-columns: 1fr;
+  display: grid;
+  gap: 1.5rem;
 }
 
 @media (min-width: 1024px) {
   .main-grid {
     grid-template-columns: 340px 1fr;
     align-items: start;
+    gap: 2rem;
   }
 }
 
-/* Sticky sidebar on desktop */
 .sidebar-sticky {
-  @apply lg:sticky lg:top-6;
+  position: static;
+}
+
+@media (min-width: 1024px) {
+  .sidebar-sticky {
+    position: sticky;
+    top: 1.5rem;
+  }
 }
 
 /* Glass card */
 .glass {
-  @apply rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_35px_rgba(0,0,0,0.45)];
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.45);
   backdrop-filter: blur(14px);
 }
 
 .section-card {
-  @apply glass p-5 sm:p-7;
+  padding: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .section-card {
+    padding: 1.75rem;
+  }
 }
 
 /* Typography */
 .section-title {
-  @apply text-2xl sm:text-3xl font-semibold tracking-tight;
+  font-size: 1.5rem;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+@media (min-width: 640px) {
+  .section-title {
+    font-size: 1.875rem;
+  }
 }
 
 .section-subtitle {
-  @apply mt-2 text-sm sm:text-base text-white/70;
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.70);
 }
 
 /* Inputs */
-.input {
-  @apply w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white
-    placeholder:text-white/40 outline-none ring-0 transition;
-}
-
-.input:focus {
-  @apply border-white/20 bg-black/30;
-}
-
-/* Select styled same as input */
+.input,
 .select {
-  @apply input appearance-none pr-10;
+  width: 100%;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(0, 0, 0, 0.20);
+  padding: 0.75rem 1rem;
+  color: #fff;
+  outline: none;
+  transition: 150ms ease;
+}
+
+.input::placeholder {
+  color: rgba(255, 255, 255, 0.40);
+}
+
+.input:focus,
+.select:focus {
+  border-color: rgba(255, 255, 255, 0.20);
+  background: rgba(0, 0, 0, 0.30);
 }
 
 /* Chips */
 .chip {
-  @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/80;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.80);
 }
 
 /* Buttons */
 .btn {
-  @apply inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm
-    text-white/90 transition hover:bg-white/10 hover:text-white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.55rem 1rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.90);
+  transition: 150ms ease;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.10);
+  color: #fff;
 }
 
 .btn-primary {
-  @apply btn border-violet-400/20 bg-violet-500/10 hover:bg-violet-500/15;
+  border-color: rgba(124, 58, 237, 0.25);
+  background: rgba(124, 58, 237, 0.12);
+}
+
+.btn-primary:hover {
+  background: rgba(124, 58, 237, 0.18);
 }
 
 .btn-success {
-  @apply btn border-emerald-400/20 bg-emerald-500/10 hover:bg-emerald-500/15;
+  border-color: rgba(16, 185, 129, 0.25);
+  background: rgba(16, 185, 129, 0.12);
 }
 
-.btn-ghost {
-  @apply btn border-transparent bg-transparent hover:bg-white/5;
+.btn-success:hover {
+  background: rgba(16, 185, 129, 0.18);
 }
 
-/* Cards grid for list pages */
+/* Cards grid */
 .cards-grid {
-  @apply mt-6 grid gap-4 sm:gap-5;
+  margin-top: 1.5rem;
+  display: grid;
+  gap: 1.25rem;
   grid-template-columns: 1fr;
 }
 
@@ -126,12 +210,11 @@ body {
   }
 }
 
-/* Better spacing for markdown pages */
-.prose {
-  @apply prose-invert;
-}
-
 /* Footer */
 .footer {
-  @apply mt-10 pb-10 text-center text-xs text-white/50;
+  margin-top: 2.5rem;
+  padding-bottom: 2.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.50);
 }

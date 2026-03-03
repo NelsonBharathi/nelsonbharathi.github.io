@@ -15,6 +15,6 @@ nav:
   - label: Student Projects
     href: /student-projects
 home_sections:
-  show_featured_publications: true
-  show_featured_projects: true
+  show_featured_publications: false
+  show_featured_projects: false
 ---

@@ -1,10 +1,10 @@
 ---
-name: Nelson Bharathi
-role: Engineering Student
+name: Ms. M. Hemalatha
+role: Assistant Professor
 location: Chennai, India
 email: your@email.com
-phone: +91-6381690344
-bio: this is my portfolio
+phone: +91-xxxxxxxxxx
+bio: this is a model portfolio for testing
 avatar: /uploads/profile.jpg
 links:
   - label: GitHub

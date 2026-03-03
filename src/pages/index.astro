@@ -1,112 +1,126 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ItemCard from "../components/ItemCard.astro";
-import { getEntry, getCollection } from "astro:content";
+import ProfileSidebar from "../components/ProfileSidebar.astro";
+import { getEntryBySlug, getCollection } from "astro:content";
 
-const profile = await getEntry("site", "profile");
-const settings = await getEntry("site", "settings");
+// Read profile + settings from the "site" collection
+const profileEntry = await getEntryBySlug("site", "profile");
+const settingsEntry = await getEntryBySlug("site", "settings");
 
+const profile = profileEntry?.data;
+const settings = settingsEntry?.data;
+
+// Collections for featured sections
 const pubs = await getCollection("publications");
 const projs = await getCollection("projects");
 
-const featuredPubs = pubs.filter(p => p.data.featured).slice(0, 4);
-const featuredProjs = projs.filter(p => p.data.featured).slice(0, 4);
+const featuredPubs = pubs.filter((p) => p.data.featured).slice(0, 4);
+const featuredProjs = projs.filter((p) => p.data.featured).slice(0, 4);
+
+// Optional hero background image
+const heroBg = profile?.background || ""; // you can set this in profile.md if you want
 ---
 
-<BaseLayout title={settings?.data?.site_title ?? "Portfolio"}>
+<BaseLayout title={settings?.site_title ?? "Portfolio"}>
+  {/* HERO */}
   <section class="relative overflow-hidden rounded-3xl border border-white/10 bg-black/30">
-    {profile?.data?.background && (
+    {heroBg && (
       <div class="absolute inset-0">
-        <img src={profile.data.background} alt="" class="h-full w-full object-cover opacity-30" />
-        <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/30"></div>
+        <img src={heroBg} alt="" class="h-full w-full object-cover opacity-30" />
+        <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/30"></div>
       </div>
     )}
 
-    <div class="relative p-6 md:p-10 grid md:grid-cols-[220px_1fr] gap-8 items-center">
-      <div class="flex md:block items-center gap-4">
-        <img
-          src={profile?.data?.avatar ?? "/profile.jpg"}
-          alt={profile?.data?.name ?? "Profile"}
-          class="h-28 w-28 md:h-48 md:w-48 rounded-2xl object-cover ring-1 ring-white/15"
-        />
-      </div>
+    <div class="relative p-6 md:p-10">
+      <div class="grid gap-6 md:grid-cols-[360px,1fr] md:items-start">
+        {/* LEFT: Profile card (always reads site/profile.md) */}
+        <ProfileSidebar />
 
-      <div>
-        <h1 class="text-3xl md:text-5xl font-semibold tracking-tight">
-          {profile?.data?.name}
-        </h1>
-        <p class="mt-2 text-lg md:text-xl text-white/80">
-          {profile?.data?.role}
-        </p>
+        {/* RIGHT: Homepage content */}
+        <div class="rounded-3xl border border-white/10 bg-white/5 p-6 md:p-8 shadow-lg backdrop-blur">
+          <h1 class="text-2xl md:text-3xl font-semibold text-white">
+            {settings?.home_heading ?? "Welcome"}
+          </h1>
+          <p class="mt-2 text-white/70">
+            {settings?.home_subheading ??
+              "This is your homepage. It shows a quick overview, featured highlights, and links to your work."}
+          </p>
 
-        <p class="mt-4 max-w-3xl text-white/75 leading-relaxed">
-          {profile?.data?.bio}
-        </p>
+          <div class="mt-6 grid gap-4 md:grid-cols-2">
+            <div class="rounded-2xl border border-white/10 bg-black/20 p-4">
+              <div class="text-sm font-semibold text-white/90">What you do</div>
+              <div class="mt-2 text-sm text-white/70">
+                {settings?.home_card_left ??
+                  "Add a summary about your research/industry focus."}
+              </div>
+            </div>
 
-        <div class="mt-5 flex flex-wrap gap-2">
-          {profile?.data?.links?.map((l) => (
-            <a
-              href={l.url}
-              target="_blank"
-              class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/10 transition"
-            >
-              {l.label}
-            </a>
-          ))}
-        </div>
-
-        {profile?.data?.highlight && (
-          <div class="mt-6 rounded-2xl border border-white/10 bg-white/5 p-4">
-            <div class="text-sm text-white/60">{profile.data.highlight.title}</div>
-            <div class="mt-1 text-white/85">{profile.data.highlight.text}</div>
+            <div class="rounded-2xl border border-white/10 bg-black/20 p-4">
+              <div class="text-sm font-semibold text-white/90">Highlights</div>
+              <ul class="mt-2 space-y-1 text-sm text-white/70 list-disc pl-5">
+                {(settings?.home_bullets ?? [
+                  "1–2 key achievements",
+                  "1–2 awards or top projects",
+                  "1–2 publications",
+                ]).map((b) => <li>{b}</li>)}
+              </ul>
+            </div>
           </div>
-        )}
+
+          {/* Featured Publications */}
+          <div class="mt-8 flex items-center justify-between">
+            <h2 class="text-lg font-semibold text-white">Featured Publications</h2>
+            <a href="/publications" class="text-sm text-white/70 hover:text-white">
+              View all →
+            </a>
+          </div>
+
+          <div class="mt-4 grid gap-4 md:grid-cols-2">
+            {featuredPubs.length ? (
+              featuredPubs.map((item) => (
+                <ItemCard
+                  title={item.data.title}
+                  description={item.data.description}
+                  href={`/publications/${item.slug}/`}
+                  tags={item.data.tags}
+                  links={item.data.links}
+                />
+              ))
+            ) : (
+              <div class="text-sm text-white/60">
+                No featured publications yet. Open <b>/admin</b> → Publications → toggle <b>Featured</b>.
+              </div>
+            )}
+          </div>
+
+          {/* Featured Projects */}
+          <div class="mt-8 flex items-center justify-between">
+            <h2 class="text-lg font-semibold text-white">Featured Projects</h2>
+            <a href="/projects" class="text-sm text-white/70 hover:text-white">
+              View all →
+            </a>
+          </div>
+
+          <div class="mt-4 grid gap-4 md:grid-cols-2">
+            {featuredProjs.length ? (
+              featuredProjs.map((item) => (
+                <ItemCard
+                  title={item.data.title}
+                  description={item.data.description}
+                  href={`/projects/${item.slug}/`}
+                  tags={item.data.tags}
+                  links={item.data.links}
+                />
+              ))
+            ) : (
+              <div class="text-sm text-white/60">
+                No featured projects yet. Open <b>/admin</b> → Projects → toggle <b>Featured</b>.
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   </section>
-
-  <section class="mt-10">
-    <h2 class="text-xl font-semibold text-white/90">Explore</h2>
-    <p class="text-white/60 mt-1">{settings?.data?.tagline}</p>
-  </section>
-
-  {(settings?.data?.home_sections?.show_featured_publications ?? true) && (
-    <section class="mt-8">
-      <div class="flex items-center justify-between">
-        <h2 class="text-xl font-semibold">Featured Publications</h2>
-        <a class="text-white/70 hover:text-white" href="/publications/">View all →</a>
-      </div>
-      <div class="mt-4 grid md:grid-cols-2 gap-4">
-        {featuredPubs.map((p) => (
-          <ItemCard
-            title={p.data.title}
-            description={p.data.description}
-            href={`/publications/${p.slug}/`}
-            tags={p.data.tags}
-            links={p.data.links}
-          />
-        ))}
-      </div>
-    </section>
-  )}
-
-  {(settings?.data?.home_sections?.show_featured_projects ?? true) && (
-    <section class="mt-10">
-      <div class="flex items-center justify-between">
-        <h2 class="text-xl font-semibold">Featured Projects</h2>
-        <a class="text-white/70 hover:text-white" href="/projects/">View all →</a>
-      </div>
-      <div class="mt-4 grid md:grid-cols-2 gap-4">
-        {featuredProjs.map((p) => (
-          <ItemCard
-            title={p.data.title}
-            description={p.data.description}
-            href={`/projects/${p.slug}/`}
-            tags={p.data.tags}
-            links={p.data.links}
-          />
-        ))}
-      </div>
-    </section>
-  )}
 </BaseLayout>

@@ -1,46 +1,102 @@
 import { defineCollection, z } from "astro:content";
 
-const linkSchema = z.object({
-  label: z.string(),
-  url: z.string(),
-  kind: z.enum(["view", "download", "external"]).default("external"),
-});
-
-const baseItemSchema = z.object({
-  title: z.string(),
-  description: z.string(),
-  date: z.coerce.date().optional(), // ✅ FIX HERE
-  tags: z.array(z.string()).default([]),
-  featured: z.boolean().default(false),
-  links: z.array(linkSchema).default([]),
-});
-
 const publications = defineCollection({
   type: "content",
-  schema: baseItemSchema,
+  schema: z.object({
+    title: z.string(),
+    description: z.string().default(""),
+    date: z.union([z.string(), z.date()]).optional(),
+    tags: z.array(z.string()).default([]),
+    featured: z.boolean().default(false),
+    links: z
+      .array(
+        z.object({
+          label: z.string(),
+          url: z.string(),
+          kind: z.enum(["view", "download", "external"]).default("external"),
+        })
+      )
+      .default([]),
+  }),
 });
 
 const teaching = defineCollection({
   type: "content",
-  schema: baseItemSchema,
+  schema: z.object({
+    title: z.string(),
+    description: z.string().default(""),
+    tags: z.array(z.string()).default([]),
+    featured: z.boolean().default(false),
+    links: z
+      .array(
+        z.object({
+          label: z.string(),
+          url: z.string(),
+          kind: z.enum(["view", "download", "external"]).default("external"),
+        })
+      )
+      .default([]),
+  }),
 });
 
 const projects = defineCollection({
   type: "content",
-  schema: baseItemSchema,
+  schema: z.object({
+    title: z.string(),
+    description: z.string().default(""),
+    date: z.union([z.string(), z.date()]).optional(),
+    tags: z.array(z.string()).default([]),
+    featured: z.boolean().default(false),
+    links: z
+      .array(
+        z.object({
+          label: z.string(),
+          url: z.string(),
+          kind: z.enum(["view", "download", "external"]).default("external"),
+        })
+      )
+      .default([]),
+  }),
 });
 
 const studentProjects = defineCollection({
   type: "content",
-  schema: baseItemSchema,
+  schema: z.object({
+    title: z.string(),
+    description: z.string().default(""),
+    date: z.union([z.string(), z.date()]).optional(),
+    tags: z.array(z.string()).default([]),
+    featured: z.boolean().default(false),
+    links: z
+      .array(
+        z.object({
+          label: z.string(),
+          url: z.string(),
+          kind: z.enum(["view", "download", "external"]).default("external"),
+        })
+      )
+      .default([]),
+  }),
 });
 
 const site = defineCollection({
   type: "content",
   schema: z.object({
-    // for src/content/site/profile.md and settings.md
-    // Astro doesn't require strict separation if you read them by path,
-    // but this keeps the collection valid.
+    name: z.string(),
+    role: z.string().default(""),
+    location: z.string().optional(),
+    email: z.string().optional(),
+    phone: z.string().optional(),
+    bio: z.string().default(""),
+    avatar: z.string().optional(), // e.g. "/profile.jpg" or "/uploads/..."
+    links: z
+      .array(
+        z.object({
+          label: z.string(),
+          url: z.string(),
+        })
+      )
+      .default([]),
   }),
 });
 

@@ -1,6 +1,11 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* A clean base */
+/* ---------------------------------------------
+   Global polish (no logic changes)
+---------------------------------------------- */
+
 :root {
   color-scheme: dark;
 }
@@ -11,22 +16,115 @@ body {
 }
 
 body {
-  margin: 0;
-  font-family:
-    ui-sans-serif,
-    system-ui,
-    -apple-system,
-    Segoe UI,
-    Roboto,
-    Helvetica,
-    Arial,
-    "Apple Color Emoji",
-    "Segoe UI Emoji";
-  background: #05070f;
-  color: #e7eaf3;
+  @apply bg-black text-white antialiased;
 }
 
-/* Nice selection */
-::selection {
-  background: rgba(99, 102, 241, 0.35);
+/* Better default typography */
+.prose {
+  @apply prose-invert;
+}
+
+/* Smooth links */
+a {
+  @apply underline-offset-4;
+}
+
+/* ---------------------------------------------
+   Reusable layout helpers
+---------------------------------------------- */
+
+/* Page width + breathing room */
+.container-shell {
+  @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+}
+
+/* Main grid: sidebar + content */
+.main-grid {
+  @apply grid gap-6 lg:gap-8;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 1024px) {
+  .main-grid {
+    grid-template-columns: 320px 1fr;
+    align-items: start;
+  }
+}
+
+/* Sticky sidebar (desktop only) */
+.sidebar-sticky {
+  @apply lg:sticky lg:top-6;
+}
+
+/* Glass card */
+.glass {
+  @apply rounded-3xl border border-white/10 bg-white/5 shadow-[0_10px_35px_rgba(0,0,0,0.45)];
+  backdrop-filter: blur(14px);
+}
+
+/* Section card for main content */
+.section-card {
+  @apply glass p-5 sm:p-7;
+}
+
+/* Subtle background glow */
+.bg-glow {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(900px 500px at 15% 10%, rgba(124,58,237,0.20), transparent 60%),
+    radial-gradient(900px 500px at 85% 15%, rgba(16,185,129,0.18), transparent 60%),
+    radial-gradient(1100px 700px at 50% 90%, rgba(59,130,246,0.12), transparent 60%);
+  filter: blur(6px);
+}
+
+/* Better inputs */
+.input {
+  @apply w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-sm text-white
+  placeholder:text-white/40 outline-none ring-0 transition;
+}
+.input:focus {
+  @apply border-white/20 bg-black/30;
+}
+
+/* Better select */
+.select {
+  @apply input appearance-none pr-10;
+}
+
+/* Chip */
+.chip {
+  @apply inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/80;
+}
+
+/* Buttons */
+.btn {
+  @apply inline-flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm
+  text-white/90 transition hover:bg-white/10 hover:text-white;
+}
+.btn-primary {
+  @apply btn border-violet-400/20 bg-violet-500/10 hover:bg-violet-500/15;
+}
+.btn-success {
+  @apply btn border-emerald-400/20 bg-emerald-500/10 hover:bg-emerald-500/15;
+}
+.btn-ghost {
+  @apply btn border-transparent bg-transparent hover:bg-white/5;
+}
+
+/* Cards list layout */
+.cards-grid {
+  @apply mt-6 grid gap-4 sm:gap-5;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Footer spacing */
+.footer {
+  @apply mt-10 pb-10 text-center text-xs text-white/50;
 }

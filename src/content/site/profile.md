@@ -6,6 +6,7 @@ email: your@email.com
 phone: +91-xxxxxxxxxx
 bio: this is a model portfolio for testing
 avatar: /uploads/profile.jpg
+background: /uploads/img_9321.jpg
 links:
   - label: GitHub
     url: https://github.com/nelsonbharathi

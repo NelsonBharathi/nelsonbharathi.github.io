@@ -3,7 +3,7 @@ name: Ms. M. Hemalatha
 role: Assistant Professor
 location: Chennai, India
 email: your@email.com
-phone: +91-xxxxxxxxxx
+phone: +91-6374267750
 bio: this is a model portfolio for testing
 avatar: /uploads/profile.jpg
 background: /uploads/img_9321.jpg

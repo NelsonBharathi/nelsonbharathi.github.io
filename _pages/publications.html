@@ -1,0 +1,14 @@
+---
+layout: archive
+title: "Publications"
+permalink: /publications/
+author_profile: true
+---
+
+{% include base_path %}
+
+<p>This page lists the published papers of Mrs. Hemalatha. Each entry includes a short description, a redirect link, and a downloadable PDF report.</p>
+
+{% for post in site.publications reversed %}
+  {% include archive-single.html %}
+{% endfor %}

@@ -1,0 +1,14 @@
+---
+layout: archive
+title: "Student Projects"
+permalink: /student-projects/
+author_profile: true
+---
+
+{% include base_path %}
+
+<p>This page lists student projects guided by Mrs. Hemalatha, including short descriptions, report downloads, and project links.</p>
+
+{% for post in site.student_projects reversed %}
+  {% include archive-single.html %}
+{% endfor %}

@@ -1,0 +1,14 @@
+---
+layout: archive
+title: "Teaching"
+permalink: /teaching/
+author_profile: true
+---
+
+{% include base_path %}
+
+<p>This page lists teaching topics, course notes, and learning materials prepared by Mrs. Hemalatha.</p>
+
+{% for post in site.teaching reversed %}
+  {% include archive-single.html %}
+{% endfor %}

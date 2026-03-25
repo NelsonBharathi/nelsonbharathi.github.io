@@ -16,7 +16,7 @@ Profile Summary
 - **Institution:** Anna University (MIT Campus)  
 - **Department:** Information Technology  
 - **Job Description:** Dedicated educator and mentor with interests in teaching, research, publication, project guidance, and student development. Update this paragraph with the official faculty profile summary.  
-- **LinkedIn:** [View LinkedIn Profile]([https://www.linkedin.com/in/mrs-hemalatha-placeholder/](https://www.linkedin.com/in/hemalatha-munusamy-4018a46a/))
+- **LinkedIn:** [View LinkedIn Profile](https://www.linkedin.com/in/hemalatha-munusamy-4018a46a/)
 
 What you can find on this website
 ------

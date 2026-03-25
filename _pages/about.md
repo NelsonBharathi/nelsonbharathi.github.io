@@ -1,25 +1,22 @@
 ---
 permalink: /
-title: "Portfolio"
+title: "Mrs. Hemalatha"
 author_profile: true
 redirect_from:
   - /about/
   - /about.html
 ---
 
-Mrs. Hemalatha
-======
-
 Welcome to the faculty portfolio of **Mrs. Hemalatha**. This website presents her academic profile, publication record, teaching resources, faculty projects, and student project guidance in one place.
 
 Profile Summary
 ------
-- **Occupation:** Faculty Member  
+- **Occupation:** Assistant Professor  
 - **Address:** Chennai, Tamil Nadu, India  
-- **Institution:** Add institution name here  
-- **Department:** Add department name here  
+- **Institution:** Anna University (MIT Campus)  
+- **Department:** Information Technology  
 - **Job Description:** Dedicated educator and mentor with interests in teaching, research, publication, project guidance, and student development. Update this paragraph with the official faculty profile summary.  
-- **LinkedIn:** [View LinkedIn Profile](https://www.linkedin.com/in/mrs-hemalatha-placeholder/)
+- **LinkedIn:** [View LinkedIn Profile]([https://www.linkedin.com/in/mrs-hemalatha-placeholder/](https://www.linkedin.com/in/hemalatha-munusamy-4018a46a/))
 
 What you can find on this website
 ------

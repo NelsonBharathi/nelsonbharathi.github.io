@@ -9,7 +9,7 @@
 # Basic Site Settings
 locale                   : "en-US"
 site_theme               : "default" # The available themes options are "default", "air", "sunrise", "mint", "dirt" and "contrast"
-title                    : "Mrs. Hemalatha | Faculty Portfolio"
+title                    : "Home Page"
 title_separator          : "-"
 name                     : &name "Mrs. Hemalatha"
 description              : &description "Faculty portfolio for Mrs. Hemalatha"   # Update this with a general description of your site, this is the default if not overridden by a page
@@ -28,7 +28,7 @@ author:
   pronouns         : # example: "she/her"  
   bio              : "Faculty portfolio showcasing publications, projects, student projects, and teaching resources."
   location         : "Chennai, Tamil Nadu, India"
-  employer         : "Faculty Member"
+  employer         : "Assistant Professor"
   uri              : # URL
   email            : "hemalatha@example.com" 
 

@@ -23,7 +23,7 @@ repository               : "nelsonbharathi/nelsonbharathi.github.io"
 #               Additional customization can be done by editing /_includes/author-profile.html
 author:
   # Biographic information
-  avatar           : "profile.png"
+  avatar           : "profile.jpg"
   name             : "Mrs. Hemalatha"
   pronouns         : # example: "she/her"  
   bio              : "Faculty portfolio showcasing publications, projects, student projects, and teaching resources."
